@@ -30,9 +30,11 @@ You can also install the F\# language and use your everyday editor, see instruct
 
 Besides, all this series is written as [Jupyter notebooks](https://jupyter.org/). You can grab them at [this github repository](https://github.com/fcolavecchia/fp-course). Instructions on how to set up F\# as a Notebook kernel can be found __[here]__. 
 
-Visual Studio Code has a wonderful extension called Ionide to work with F\#. I personally use JetBrains Rider for my daily coding.
+[Visual Studio Code](https://code.visualstudio.com/) has a wonderful extension called [Ionide](https://ionide.io/Editors/Code/overview.html) to work with F\#. I personally use JetBrains Rider for my daily coding.
 
-> You can also install Visual Studio for Windows or MacOS, if you are familiar with that tool. 
+You can also use F\# with Visual Studio for Windows or MacOS, if you are familiar with that tool. 
+
+Moreover, if you want to code F\# with `vim`, [Ionide gets you covered](https://ionide.io/Editors/Vim/overview.html).
 
 
 
@@ -45,9 +47,9 @@ Any code you write will need data.
 
 Any code you write will do _something_ with that data. 
 
-So the first step in a new language is to learn how to define a way to hold your data, and how to transform it along the code. The former concept usually translates into _variables_ and while the latter one into _routines_, (or any other name, such as procedures, or functions, depending your programming scope). In this way, one uses routines to change the variables, or create other ones, from an order to buy something in a website, to the color of a pixel in your game of preference. 
+So the first step in a new language is to learn how to define a way to hold your data, and how to transform it along the prgram. The former concept usually translates into _variables_ and while the latter one into _routines_, (or any other name, such as procedures, or functions, depending your programming scope). In this way, one uses routines to change the variables, or create other ones, from an order to buy something in a website, to the color of a pixel in your game of preference. 
 
-But let us go back and start with _expressions_. An expression is an ordered set of symbols that may represent different entities in the code. Pretty much like a sentence in a human language, an expression has to have a valid syntax (nobody will understand me if I use the. period wrong.) and also has to be meaningful (I a example for if me nobody of sentence sort the understand will words). The compiler, however, is much more strict with the rules and does not allow such poems. Why? Because the compiler needs to grab the expression, process it and return a _value_. So the value is the result of the evaluation of an expression. 
+But let us go back and start with _expressions_. An expression is an ordered set of symbols that may represent different entities in the code. Pretty much like a sentence in a human language, an expression has to have a valid syntax (nobody will understand me if I use the. period wrong.) and also has to be meaningful (I a example for if me nobody of sentence sort the understand will words). The compiler, however, is much more strict with the rules and does not allow such poems. Why? Because the compiler needs to grab the expression, process it and obtain a _value_. So the value is the result of the evaluation of an expression. 
 
 In F\# everything is an expression.
 
@@ -56,16 +58,14 @@ And since every expression results in a value, one needs to manage all these val
 In F\# one says that `let` _binds_ an expression to an identifier. For example
 
 
-
-```fsharp
+```F#
 // My first line in F# 
 let a = 1 
 ```
 
 binds the literal expression `1` to the name `a`. On the right hand side of the `=` symbol (that acts here as a binding operator), one can have any valid expression:
 
-
-```fsharp
+```F#
 let a = 1 + 3
 let s = "this is a string" 
 let l = [1 ; 2 ; 3] // A list of integers 
@@ -73,17 +73,42 @@ let l = [1 ; 2 ; 3] // A list of integers
 
 and so on. Of course one can associate a previous binding with a new one:
 
-
-```fsharp
+```F#
 let b = a + 4 
-b
+printfn "%A" b
+```
+
+    8
+
+
+### Inmutability
+
+However, you cannot bind an expression to an identifier that has already been used:
+
+```F#
+let q = 3
+let q = q + 1
 ```
 
 
-<div class="dni-plaintext">8</div>
+    input.fsx (2,5)-(2,6) typecheck error Duplicate definition of value 'q'
 
 
+which answers why one does not use _variables_ in F\#: once the value of an expression is obtained, it cannot be changed. In other words, all the values are _immutable_: once there, they cannot be changed. There are no variables in the language, because there is nothing to _vary_. You can create as many values as you want, but you cannot change them: 
 
+
+```F#
+let q = 3
+let qq = q + 1
+```
+
+> :warning: 
+
+The implications of this are deep and it is very important to let the concept mature and sink in, because it percolates all the code in F\# (and any other functional language). In some way, since everything is an expression, coding in F\# is mananging the expressions that solve our problem. You name an expression (that is, you bind it to an identifier), use it in another expression, bind its value to a new identifier and so on an so on.
+
+The perspective of a code as a long list of `let` bindings is kind of daunting. That is where functions come in.
+
+### Resources
 
 
 
@@ -103,16 +128,14 @@ b
 
 
 
-
-```fsharp
+```F#
 let x4 = for i in [1..10]
           do printf "%i" i
 ```
 
     12345678910
 
-
-```fsharp
+```F#
 let c = "nobody will understand me I a example for if of sentence sort the words"
 let q = c.Split(' ')
 Array.sort q 
@@ -123,24 +146,36 @@ Array.sort q
     I a example for if me nobody of sentence sort the understand will words
 
 
-
-```fsharp
-
+```F#
+let p = 5
 ```
+
+```F#
+printfn "%A" p 
+```
+
+    5
+
+
+```F#
+let p = 6
+printfn "%A" p 
+```
+
+    6
+
 
 ### Functions everywhere
 
 Looks like one can reuse the binding name in different cells, provided one runs in the current order. Same value on one cell are not allowed, though.
 
-
-```fsharp
+```F#
 let foo (a:string) b =
     a + b
    
 ```
 
-
-```fsharp
+```F#
 let d = foo "John " "Doe"
 let d = foo 2 3 
 ```
@@ -170,19 +205,16 @@ let d = foo 2 3
         'int'    
 
 
-
-```fsharp
+```F#
 let foo (a:int) b =
     a + b
 ```
 
-
-```fsharp
+```F#
 let d = foo 2 3 
 ```
 
-
-```fsharp
+```F#
 let next x = 
     x + 1 
 ```
@@ -193,8 +225,7 @@ let next x =
 
 ### On Lists
 
-
-```fsharp
+```F#
 let indexOfAny (text: string) (charList: char list) = 
     let textList = Seq.toList text 
     let found = charList
@@ -212,15 +243,13 @@ let indexOfAny (text: string) (charList: char list) =
 
 
 
-
-```fsharp
+```F#
 let myIndexed (xs: list<'a>) = 
     ([0..(xs.Length - 1)], xs)
         ||> List.map2 (fun i t -> (i,t))  // This is List.zip
 ```
 
-
-```fsharp
+```F#
 let indexOfAny2 (text: string) (charList: char list) = 
 
     // let textList = ([0..text.Length-1], Seq.toList text)
@@ -238,13 +267,11 @@ let indexOfAny2 (text: string) (charList: char list) =
     | _ -> List.min found 
 ```
 
-
-```fsharp
+```F#
 let a = 0 
 ```
 
-
-```fsharp
+```F#
 indexOfAny "zzabyycdxx" ['z';'a'] |> printfn "%A"
 indexOfAny "zzabyycdxx" ['b';'y'] |> printfn "%A"
 indexOfAny "aba" ['z'] |> printfn "%A"      
@@ -256,8 +283,7 @@ indexOfAny "aba" ['z'] |> printfn "%A"
     -1
 
 
-
-```fsharp
+```F#
 #!js
 // Function to compute the product of p1 and p2
 function foo_js(a, b) {
@@ -316,8 +342,7 @@ console.log("or maybe is: "+c)
     or maybe is: 5
 
 
-
-```fsharp
+```F#
 indexOfAny2 "zzabyycdxx" ['z';'a'] |> printfn "%A"
 indexOfAny2 "zzabyycdxx" ['b';'y'] |> printfn "%A"
 indexOfAny2 "aba" ['z'] |> printfn "%A"      
