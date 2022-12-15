@@ -14525,7 +14525,8 @@ imperative counterpart, Fortran.</p>
 </blockquote>
 <p>Even though you do not finally adopt the functional paradigm, adding a new language style to your assets will give you the experience to revisit old programming habits with new eyes, giving a deeper understanding, and more fine tuning to your code. You will become a better programmer, definetly!</p>
 <p>F# is one of the languages provided by the .NET framework (together with C# and Visual Basic). As such, F# is tighly integrated with all the tools and libraries that .NET provides. In this sense, and <strong>only for pedagogical purposes</strong>, I will view .NET as the set of libraries that one can use to enhance your code. In other words, I will stay away from using them, and focusing in the core features of F# as a functional language. From Web programming to Machine Learning, from databases to windows, .NET has everything you need to make your programming a better experience, once you know the core features F# provides.</p>
-<blockquote><p>If you are a C# programmer, you will probably get a better mileage going into some of the excellent resources of F# for C# coders, such as <a href="https://www.manning.com/books/get-programming-with-f-sharp#:~:text=about%20the%20book-,Get%20Programming%20with%20F%23%3A%20A%20guide%20for%20.,of%20functional%20programming%20in%20F%23.">Get programming with F#</a></p>
+<blockquote><p>If you are a C# programmer, you will probably get a better mileage going into some of the excellent resources of F# for C# coders, such as <a href="https://www.manning.com/books/get-programming-with-f-sharp#:~:text=about%20the%20book-,Get%20Programming%20with%20F%23%3A%20A%20guide%20for%20.,of%20functional%20programming%20in%20F%23.">Get programming with F#</a> 
+See the Resources section for more information.</p>
 </blockquote>
 
 </div>
@@ -14545,11 +14546,69 @@ imperative counterpart, Fortran.</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="So-what-is-a-function-anyway?">So what is a function anyway?<a class="anchor-link" href="#So-what-is-a-function-anyway?">&#182;</a></h2><p>Since we are about to learn functional programming, we need to agree in what a <em>function</em> is in this context. Let us start with a set of entities, for example, the cars parked in a given block of a street. One can identify each car by its license plate, and then build a table with two columns: the first one with the license plate, and the second one with the corresponding the color of each car:</p>
+<table>
+<thead><tr>
+<th style="text-align:center">Lic. Plate</th>
+<th style="text-align:center">Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ABC 124</td>
+<td style="text-align:center">black</td>
+</tr>
+<tr>
+<td style="text-align:center">DEF 350</td>
+<td style="text-align:center">red</td>
+</tr>
+<tr>
+<td style="text-align:center">QRZ 441</td>
+<td style="text-align:center">black</td>
+</tr>
+<tr>
+<td style="text-align:center">JPG 255</td>
+<td style="text-align:center">white</td>
+</tr>
+</tbody>
+</table>
+<p>That's a function that we can call <code>carColor</code>, that associates each car of the block with its color. The table is a representation of that function. A function from a set of entities A to a set of entities B is then a relation that associates elements between the sets A and B, with the property that each and every element of A has a one and only one corresponding element of B.</p>
+<p>There are two things to note. First, a function is defined <em>from</em> one set <em>to</em> another set, in our example, from the set of license plates to the set of colors. To get the color of a particular car, you go to the table representation of the function, look up the plate in the column of license plates, and get the color from the second column. With this in mind, one can identify the <em>from</em> set as the <em>input</em> of the function, while the <em>to</em> set is the <em>output</em>.</p>
+<p>Second, all elements of the input must relate to some element in the output set. In our example, every car in the block has a color assigned in the table. This means that there cannot be empty cells in the second column of our table.</p>
+<blockquote><p>❓ Can you come up with more examples of functions in the real world?</p>
+</blockquote>
+<p>In math, functions are ubiquitous. Let us assume that $x$ is an integer, and define the function 
+$$
+f(x) = x + 1 , 
+$$
+that is, the function that returns the value $x$ plus one. The input set (which is called the <em>domain</em> of the function in math) is the set of all integer values, $\mathbb{Z}$, while the output set (the <em>codomain</em> in math) is also $\mathbb{Z}$. Using the <em>arrow</em> notation, the complete definition of the function would be
+$$
+f: \mathbb{Z} \rightarrow \mathbb{N} \cup \{0\} / x \mapsto x + 1 
+$$
+Or in english, $f$ is a function from $\mathbb{Z}$ to $\mathbb{Z}$ such that $f$ of $x$ is $x + 1$.</p>
+<blockquote><p>🔔 A slight detour around the codomain. The codomain is the set of entities where the function can possibly map input values. For example, in the case of the color of the cars, the codomain is simply all the possible colors. In many cases that information is too general, and it is convenient to define the <em>range</em> of the function, which is the set of actual values of outputs the function maps inputs into. The <em>range</em> in the cars example is the set {black, red, white}.</p>
+</blockquote>
+<h3 id="Multiple-inputs-and-outputs">Multiple inputs and outputs<a class="anchor-link" href="#Multiple-inputs-and-outputs">&#182;</a></h3><p>Let us take the example of a vending machine. In a vending machine, products are arranged in shelves, where each shelf is named by a letter. In each shelf, the products are aligned and identified by a number. Then, in A1 you have a bag of chips, in A2 a chocolate, in B1 a soda, and so on. The machine also has a keyboard with letters and numbers for you to choose the product. To buy something, you need to give the machine some money (coins, bills, credit card, etc), select the product by clicking the letter and the number on the keyboard. The machine returns the product and some cashback, if any. 
+The inputs of our <code>vendingMachine</code> function are the money, the letter and the number you selected, and the outputs are the product and 
+the cashback (if any).</p>
+<p>An example from math could be a translation function, where given a point with coordinates $x$ and $y$ in the plane, it returns a point with coordinates $x+1$ and $y+1$.</p>
+<blockquote>
+</blockquote>
+<h3 id="Composition">Composition<a class="anchor-link" href="#Composition">&#182;</a></h3><p>The example of the friends, names, and initials.</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Binding functions</p>
+<p>Functions with many arguments</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="let-the-fun-begin"><code>let</code> the fun begin<a class="anchor-link" href="#let-the-fun-begin">&#182;</a></h3><p>Any code you write will need data.</p>
 <p>Any code you write will do <em>something</em> with that data.</p>
 <p>So the first step in a new language is to learn how to define a way to hold your data, and how to transform it along the prgram. The former concept usually translates into <em>variables</em> and while the latter one into <em>routines</em>, (or any other name, such as procedures, or functions, depending your programming scope). In this way, one uses routines to change the variables, or create other ones, from an order to buy something in a website, to the color of a pixel in your game of preference.</p>
 <p>But let us go back and start with <em>expressions</em>. An expression is an ordered set of symbols that may represent different entities in the code. Pretty much like a sentence in a human language, an expression has to have a valid syntax (nobody will understand me if I use the. period wrong.) and also has to be meaningful (I a example for if me nobody of sentence sort the understand will words). The compiler, however, is much more strict with the rules and does not allow such poems. Why? Because the compiler needs to grab the expression, process it and obtain a <em>value</em>. So the value is the result of the evaluation of an expression.</p>
-<p>In F# everything is an expression.</p>
 <p>And since every expression results in a value, one needs to manage all these values that will be appearing as the code runs, identify and use them as one sees fit. To that end, F# uses several <em>keywords</em>, and one of them is the <code>let</code>.</p>
 <p>In F# one says that <code>let</code> <em>binds</em> an expression to an identifier. For example</p>
 
@@ -14560,8 +14619,8 @@ imperative counterpart, Fortran.</p>
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="c1">// My first line in F# </span>
-<span class="k">let</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="m">1</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="c1">// My first line in F# </span><span class="w"></span>
+<span class="k">let</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -14580,9 +14639,9 @@ imperative counterpart, Fortran.</p>
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">+</span><span class="w"> </span><span class="m">3</span><span class="w"></span>
-<span class="k">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;this is a string&quot;</span><span class="w"> </span>
-<span class="k">let</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="m">1</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="m">3</span><span class="p">]</span><span class="w"> </span><span class="c1">// A list of integers</span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="k">let</span><span class="w"> </span><span class="nv">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;this is a string&quot;</span><span class="w"> </span>
+<span class="k">let</span><span class="w"> </span><span class="nv">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="mi">1</span><span class="w"> </span><span class="o">;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">;</span><span class="w"> </span><span class="mi">3</span><span class="o">]</span><span class="w"> </span><span class="c1">// A list of integers</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -14592,7 +14651,7 @@ imperative counterpart, Fortran.</p>
 
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>and so on. Of course one can associate a previous binding with a new one:</p>
+<p>and so on. Of course one can associate a previous binding with a new one through an expression:</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14601,8 +14660,7 @@ imperative counterpart, Fortran.</p>
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">+</span><span class="w"> </span><span class="m">4</span><span class="w"> </span>
-<span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%A&quot;</span><span class="w"> </span><span class="n">b</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -14628,6 +14686,11 @@ imperative counterpart, Fortran.</p>
 
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>In the line above, we add four to <code>a</code> and bind the result of this expression to the <code>b</code> identifier.</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Inmutability">Inmutability<a class="anchor-link" href="#Inmutability">&#182;</a></h3><p>However, you cannot bind an expression to an identifier that has already been used:</p>
 
 </div>
@@ -14637,8 +14700,8 @@ imperative counterpart, Fortran.</p>
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="m">3</span><span class="w"></span>
-<span class="k">let</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="p">+</span><span class="w"> </span><span class="m">1</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="k">let</span><span class="w"> </span><span class="nv">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -14673,8 +14736,8 @@ input.fsx (2,5)-(2,6) typecheck error Duplicate definition of value &#39;q&#39;<
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="m">3</span><span class="w"></span>
-<span class="k">let</span><span class="w"> </span><span class="n">qq</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="p">+</span><span class="w"> </span><span class="m">1</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="k">let</span><span class="w"> </span><span class="nv">qq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -14684,7 +14747,7 @@ input.fsx (2,5)-(2,6) typecheck error Duplicate definition of value &#39;q&#39;<
 
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<blockquote><p>⚠️ If you are using this as a Jupyter notebook, it is possible to use the same identifier, provided it is used in different cells.</p>
+<blockquote><p>❗️ There are some cases where one can use the same identifier, see this</p>
 </blockquote>
 
 </div>
@@ -14701,6 +14764,62 @@ input.fsx (2,5)-(2,6) typecheck error Duplicate definition of value &#39;q&#39;<
 </blockquote>
 
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">demo</span><span class="w"> </span><span class="bp">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="w">  </span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="w">    </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;The x is %d&quot;</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-fsharp"><pre><span></span><span class="n">demo</span><span class="bp">()</span><span class="w"></span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>The x is 10
+</pre>
+</div>
+</div>
+
+<div class="jp-OutputArea-child">
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<null>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 
@@ -14711,7 +14830,7 @@ input.fsx (2,5)-(2,6) typecheck error Duplicate definition of value &#39;q&#39;<
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="n">x4</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="p">[</span><span class="m">1.</span><span class="p">.</span><span class="m">10</span><span class="p">]</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">x4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="o">]</span><span class="w"></span>
 <span class="w">          </span><span class="k">do</span><span class="w"> </span><span class="n">printf</span><span class="w"> </span><span class="s">&quot;%i&quot;</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
 </pre></div>
 
@@ -14741,10 +14860,10 @@ input.fsx (2,5)-(2,6) typecheck error Duplicate definition of value &#39;q&#39;<
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;nobody will understand me I a example for if of sentence sort the words&quot;</span><span class="w"></span>
-<span class="k">let</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">Split</span><span class="p">(</span><span class="sc">&#39; &#39;</span><span class="p">)</span><span class="w"></span>
-<span class="n">Array</span><span class="p">.</span><span class="n">sort</span><span class="w"> </span><span class="n">q</span><span class="w"> </span>
-<span class="p">|&gt;</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="n">concat</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;nobody will understand me I a example for if of sentence sort the words&quot;</span><span class="w"></span>
+<span class="k">let</span><span class="w"> </span><span class="nv">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="o">.</span><span class="n">Split</span><span class="o">(</span><span class="sc">&#39; &#39;</span><span class="o">)</span><span class="w"></span>
+<span class="nn">Array</span><span class="p">.</span><span class="n">sort</span><span class="w"> </span><span class="n">q</span><span class="w"> </span>
+<span class="o">|&gt;</span><span class="w"> </span><span class="nn">String</span><span class="p">.</span><span class="n">concat</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -14776,7 +14895,7 @@ input.fsx (2,5)-(2,6) typecheck error Duplicate definition of value &#39;q&#39;<
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="m">5</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -14790,7 +14909,7 @@ input.fsx (2,5)-(2,6) typecheck error Duplicate definition of value &#39;q&#39;<
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%A&quot;</span><span class="w"> </span><span class="n">p</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%A&quot;</span><span class="w"> </span><span class="n">p</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -14820,7 +14939,7 @@ input.fsx (2,5)-(2,6) typecheck error Duplicate definition of value &#39;q&#39;<
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="m">6</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="w"></span>
 <span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%A&quot;</span><span class="w"> </span><span class="n">p</span><span class="w"></span>
 </pre></div>
 
@@ -14860,8 +14979,8 @@ input.fsx (2,5)-(2,6) typecheck error Duplicate definition of value &#39;q&#39;<
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nf">foo</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">=</span><span class="w"></span>
-<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="p">+</span><span class="w"> </span><span class="n">b</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">foo</span><span class="w"> </span><span class="o">(</span><span class="n">a</span><span class="o">:</span><span class="kt">string</span><span class="o">)</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"></span>
+<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -14875,8 +14994,8 @@ input.fsx (2,5)-(2,6) typecheck error Duplicate definition of value &#39;q&#39;<
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="s">&quot;John &quot;</span><span class="w"> </span><span class="s">&quot;Doe&quot;</span><span class="w"></span>
-<span class="k">let</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="s">&quot;John &quot;</span><span class="w"> </span><span class="s">&quot;Doe&quot;</span><span class="w"></span>
+<span class="k">let</span><span class="w"> </span><span class="nv">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -14920,8 +15039,8 @@ but here has type
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nf">foo</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">=</span><span class="w"></span>
-<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="p">+</span><span class="w"> </span><span class="n">b</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">foo</span><span class="w"> </span><span class="o">(</span><span class="n">a</span><span class="o">:</span><span class="n">int</span><span class="o">)</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"></span>
+<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -14935,7 +15054,7 @@ but here has type
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -14949,8 +15068,8 @@ but here has type
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="n">next</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span>
-<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="p">+</span><span class="w"> </span><span class="m">1</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">next</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -14960,7 +15079,7 @@ but here has type
 
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Discriminated-unions">Discriminated unions<a class="anchor-link" href="#Discriminated-unions">&#182;</a></h3>
+<h3 id="Types">Types<a class="anchor-link" href="#Types">&#182;</a></h3><h4 id="Product-type:-Records">Product type: Records<a class="anchor-link" href="#Product-type:-Records">&#182;</a></h4><h4 id="Sum-type:-Discriminated-unions">Sum type: Discriminated unions<a class="anchor-link" href="#Sum-type:-Discriminated-unions">&#182;</a></h4>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
@@ -14976,14 +15095,14 @@ but here has type
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nf">indexOfAny</span><span class="w"> </span><span class="p">(</span><span class="n">text</span><span class="p">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="n">charList</span><span class="p">:</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">list</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span>
-<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">textList</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Seq</span><span class="p">.</span><span class="n">toList</span><span class="w"> </span><span class="n">text</span><span class="w"> </span>
-<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">charList</span><span class="w"></span>
-<span class="w">                    </span><span class="p">|&gt;</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="n">map</span><span class="w"> </span><span class="p">(</span><span class="n">fun</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="n">tryFindIndex</span><span class="w"> </span><span class="p">(</span><span class="n">fun</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="n">textList</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">                    </span><span class="p">|&gt;</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="n">choose</span><span class="w"> </span><span class="n">id</span><span class="w"> </span>
-<span class="w">    </span><span class="n">match</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="n">with</span><span class="w"></span>
-<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="p">[]</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">-</span><span class="m">1</span><span class="w">     </span>
-<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="n">min</span><span class="w"> </span><span class="n">found</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">indexOfAny</span><span class="w"> </span><span class="o">(</span><span class="n">text</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">charList</span><span class="o">:</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="kt">list</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">textList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">Seq</span><span class="p">.</span><span class="n">toList</span><span class="w"> </span><span class="n">text</span><span class="w"> </span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">charList</span><span class="w"></span>
+<span class="w">                    </span><span class="o">|&gt;</span><span class="w"> </span><span class="nn">List</span><span class="p">.</span><span class="n">map</span><span class="w"> </span><span class="o">(</span><span class="k">fun</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nn">List</span><span class="p">.</span><span class="n">tryFindIndex</span><span class="w"> </span><span class="o">(</span><span class="k">fun</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="o">)</span><span class="w"> </span><span class="n">textList</span><span class="w"> </span><span class="o">)</span><span class="w"></span>
+<span class="w">                    </span><span class="o">|&gt;</span><span class="w"> </span><span class="nn">List</span><span class="p">.</span><span class="n">choose</span><span class="w"> </span><span class="n">id</span><span class="w"> </span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="k">with</span><span class="w"></span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="bp">[]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w">     </span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nn">List</span><span class="p">.</span><span class="n">min</span><span class="w"> </span><span class="n">found</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -15006,9 +15125,9 @@ but here has type
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nf">myIndexed</span><span class="w"> </span><span class="p">(</span><span class="n">xs</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="p">&lt;</span><span class="err">&#39;</span><span class="n">a</span><span class="p">&gt;)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span>
-<span class="w">    </span><span class="p">([</span><span class="m">0.</span><span class="p">.(</span><span class="n">xs</span><span class="p">.</span><span class="n">Length</span><span class="w"> </span><span class="p">-</span><span class="w"> </span><span class="m">1</span><span class="p">)],</span><span class="w"> </span><span class="n">xs</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="p">||&gt;</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="n">map2</span><span class="w"> </span><span class="p">(</span><span class="n">fun</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">t</span><span class="p">))</span><span class="w">  </span><span class="c1">// This is List.zip</span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">myIndexed</span><span class="w"> </span><span class="o">(</span><span class="n">xs</span><span class="o">:</span><span class="w"> </span><span class="kt">list</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="w">    </span><span class="o">([</span><span class="mi">0</span><span class="o">..(</span><span class="n">xs</span><span class="o">.</span><span class="n">Length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="o">)],</span><span class="w"> </span><span class="n">xs</span><span class="o">)</span><span class="w"></span>
+<span class="w">        </span><span class="o">||&gt;</span><span class="w"> </span><span class="nn">List</span><span class="p">.</span><span class="n">map2</span><span class="w"> </span><span class="o">(</span><span class="k">fun</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">(</span><span class="n">i</span><span class="o">,</span><span class="n">t</span><span class="o">))</span><span class="w">  </span><span class="c1">// This is List.zip</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -15022,21 +15141,21 @@ but here has type
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nf">indexOfAny2</span><span class="w"> </span><span class="p">(</span><span class="n">text</span><span class="p">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="n">charList</span><span class="p">:</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">list</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">indexOfAny2</span><span class="w"> </span><span class="o">(</span><span class="n">text</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">charList</span><span class="o">:</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="kt">list</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
 
-<span class="w">    </span><span class="c1">// let textList = ([0..text.Length-1], Seq.toList text)</span>
-<span class="w">    </span><span class="c1">//                 ||&gt; List.map2 (fun i t -&gt; (i,t))</span>
+<span class="w">    </span><span class="c1">// let textList = ([0..text.Length-1], Seq.toList text)</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//                 ||&gt; List.map2 (fun i t -&gt; (i,t))</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">textList</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="n">indexed</span><span class="w"> </span><span class="p">(</span><span class="n">Seq</span><span class="p">.</span><span class="n">toList</span><span class="w"> </span><span class="n">text</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">textList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">List</span><span class="p">.</span><span class="n">indexed</span><span class="w"> </span><span class="o">(</span><span class="nn">Seq</span><span class="p">.</span><span class="n">toList</span><span class="w"> </span><span class="n">text</span><span class="o">)</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">textList</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="o">(</span><span class="n">i</span><span class="o">,</span><span class="n">t</span><span class="o">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">textList</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>
 <span class="w">                    </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">charList</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>
-<span class="w">                        </span><span class="nf">if</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="n">then</span><span class="w"> </span><span class="k">yield</span><span class="w"> </span><span class="n">i</span><span class="w"> </span>
-<span class="w">                    </span><span class="p">]</span><span class="w"></span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="o">(</span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="o">)</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="k">yield</span><span class="w"> </span><span class="n">i</span><span class="w"> </span>
+<span class="w">                    </span><span class="o">]</span><span class="w"></span>
 <span class="w">    </span>
-<span class="w">    </span><span class="n">match</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="n">with</span><span class="w"></span>
-<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="p">[]</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">-</span><span class="m">1</span><span class="w">     </span>
-<span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="n">min</span><span class="w"> </span><span class="n">found</span><span class="w"></span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="k">with</span><span class="w"></span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="bp">[]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w">     </span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nn">List</span><span class="p">.</span><span class="n">min</span><span class="w"> </span><span class="n">found</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -15050,7 +15169,7 @@ but here has type
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="m">0</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="k">let</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -15064,9 +15183,9 @@ but here has type
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="n">indexOfAny</span><span class="w"> </span><span class="s">&quot;zzabyycdxx&quot;</span><span class="w"> </span><span class="p">[</span><span class="sc">&#39;z&#39;</span><span class="p">;</span><span class="sc">&#39;a&#39;</span><span class="p">]</span><span class="w"> </span><span class="p">|&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%A&quot;</span><span class="w"></span>
-<span class="n">indexOfAny</span><span class="w"> </span><span class="s">&quot;zzabyycdxx&quot;</span><span class="w"> </span><span class="p">[</span><span class="sc">&#39;b&#39;</span><span class="p">;</span><span class="sc">&#39;y&#39;</span><span class="p">]</span><span class="w"> </span><span class="p">|&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%A&quot;</span><span class="w"></span>
-<span class="n">indexOfAny</span><span class="w"> </span><span class="s">&quot;aba&quot;</span><span class="w"> </span><span class="p">[</span><span class="sc">&#39;z&#39;</span><span class="p">]</span><span class="w"> </span><span class="p">|&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%A&quot;</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="n">indexOfAny</span><span class="w"> </span><span class="s">&quot;zzabyycdxx&quot;</span><span class="w"> </span><span class="o">[</span><span class="sc">&#39;z&#39;</span><span class="o">;</span><span class="sc">&#39;a&#39;</span><span class="o">]</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%A&quot;</span><span class="w"></span>
+<span class="n">indexOfAny</span><span class="w"> </span><span class="s">&quot;zzabyycdxx&quot;</span><span class="w"> </span><span class="o">[</span><span class="sc">&#39;b&#39;</span><span class="o">;</span><span class="sc">&#39;y&#39;</span><span class="o">]</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%A&quot;</span><span class="w"></span>
+<span class="n">indexOfAny</span><span class="w"> </span><span class="s">&quot;aba&quot;</span><span class="w"> </span><span class="o">[</span><span class="sc">&#39;z&#39;</span><span class="o">]</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%A&quot;</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -15098,27 +15217,27 @@ but here has type
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="err">#</span><span class="p">!</span><span class="n">js</span><span class="w"></span>
-<span class="c1">// Function to compute the product of p1 and p2</span>
-<span class="n">function</span><span class="w"> </span><span class="nf">foo_js</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="o">#!</span><span class="n">js</span><span class="w"></span>
+<span class="c1">// Function to compute the product of p1 and p2</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span><span class="n">foo_js</span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="w"> </span><span class="n">b</span><span class="o">)</span><span class="w"> </span><span class="o">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="o">;</span><span class="w"></span>
+<span class="o">}</span><span class="w"></span>
 
-<span class="c1">// Sum </span>
-<span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">foo_js</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">2</span><span class="p">);</span><span class="w"></span>
-<span class="n">console</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="err">&#39;</span><span class="n">c</span><span class="w"> </span><span class="k">is</span><span class="p">:</span><span class="err">&#39;</span><span class="p">+</span><span class="n">c</span><span class="p">);</span><span class="w"></span>
+<span class="c1">// Sum </span><span class="w"></span>
+<span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo_js</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="mi">2</span><span class="o">);</span><span class="w"></span>
+<span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="o">(</span><span class="k">&#39;</span><span class="n">c</span><span class="w"> </span><span class="n">is</span><span class="o">:</span><span class="k">&#39;</span><span class="o">+</span><span class="n">c</span><span class="o">);</span><span class="w"></span>
 
-<span class="c1">// Concat</span>
-<span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">foo_js</span><span class="p">(</span><span class="s">&quot;John &quot;</span><span class="p">,</span><span class="s">&quot;Doe&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">console</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="s">&quot;or maybe is: &quot;</span><span class="p">+</span><span class="n">c</span><span class="p">);</span><span class="w"></span>
+<span class="c1">// Concat</span><span class="w"></span>
+<span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo_js</span><span class="o">(</span><span class="s">&quot;John &quot;</span><span class="o">,</span><span class="s">&quot;Doe&quot;</span><span class="o">)</span><span class="w"></span>
+<span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="o">(</span><span class="s">&quot;or maybe is: &quot;</span><span class="o">+</span><span class="n">c</span><span class="o">);</span><span class="w"></span>
 
-<span class="c1">// Or something else</span>
-<span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">foo_js</span><span class="p">(</span><span class="k">true</span><span class="p">,</span><span class="k">true</span><span class="p">)</span><span class="w"></span>
-<span class="n">console</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="s">&quot;or maybe is: &quot;</span><span class="p">+</span><span class="n">c</span><span class="p">)</span><span class="w"></span>
+<span class="c1">// Or something else</span><span class="w"></span>
+<span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo_js</span><span class="o">(</span><span class="k">true</span><span class="o">,</span><span class="k">true</span><span class="o">)</span><span class="w"></span>
+<span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="o">(</span><span class="s">&quot;or maybe is: &quot;</span><span class="o">+</span><span class="n">c</span><span class="o">)</span><span class="w"></span>
 
-<span class="c1">// or something weirder </span>
-<span class="n">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">foo_js</span><span class="p">(</span><span class="k">true</span><span class="p">,</span><span class="m">4</span><span class="p">)</span><span class="w"></span>
-<span class="n">console</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="s">&quot;or maybe is: &quot;</span><span class="p">+</span><span class="n">c</span><span class="p">)</span><span class="w"></span>
+<span class="c1">// or something weirder </span><span class="w"></span>
+<span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo_js</span><span class="o">(</span><span class="k">true</span><span class="o">,</span><span class="mi">4</span><span class="o">)</span><span class="w"></span>
+<span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="o">(</span><span class="s">&quot;or maybe is: &quot;</span><span class="o">+</span><span class="n">c</span><span class="o">)</span><span class="w"></span>
 </pre></div>
 
      </div>
@@ -15220,9 +15339,9 @@ but here has type
 
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-csharp"><pre><span></span><span class="n">indexOfAny2</span><span class="w"> </span><span class="s">&quot;zzabyycdxx&quot;</span><span class="w"> </span><span class="p">[</span><span class="sc">&#39;z&#39;</span><span class="p">;</span><span class="sc">&#39;a&#39;</span><span class="p">]</span><span class="w"> </span><span class="p">|&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%A&quot;</span><span class="w"></span>
-<span class="n">indexOfAny2</span><span class="w"> </span><span class="s">&quot;zzabyycdxx&quot;</span><span class="w"> </span><span class="p">[</span><span class="sc">&#39;b&#39;</span><span class="p">;</span><span class="sc">&#39;y&#39;</span><span class="p">]</span><span class="w"> </span><span class="p">|&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%A&quot;</span><span class="w"></span>
-<span class="n">indexOfAny2</span><span class="w"> </span><span class="s">&quot;aba&quot;</span><span class="w"> </span><span class="p">[</span><span class="sc">&#39;z&#39;</span><span class="p">]</span><span class="w"> </span><span class="p">|&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%A&quot;</span><span class="w"></span>
+<div class=" highlight hl-fsharp"><pre><span></span><span class="n">indexOfAny2</span><span class="w"> </span><span class="s">&quot;zzabyycdxx&quot;</span><span class="w"> </span><span class="o">[</span><span class="sc">&#39;z&#39;</span><span class="o">;</span><span class="sc">&#39;a&#39;</span><span class="o">]</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%A&quot;</span><span class="w"></span>
+<span class="n">indexOfAny2</span><span class="w"> </span><span class="s">&quot;zzabyycdxx&quot;</span><span class="w"> </span><span class="o">[</span><span class="sc">&#39;b&#39;</span><span class="o">;</span><span class="sc">&#39;y&#39;</span><span class="o">]</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%A&quot;</span><span class="w"></span>
+<span class="n">indexOfAny2</span><span class="w"> </span><span class="s">&quot;aba&quot;</span><span class="w"> </span><span class="o">[</span><span class="sc">&#39;z&#39;</span><span class="o">]</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%A&quot;</span><span class="w"></span>
 </pre></div>
 
      </div>

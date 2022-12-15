@@ -20,6 +20,7 @@ Even though you do not finally adopt the functional paradigm, adding a new langu
 F\# is one of the languages provided by the .NET framework (together with C# and Visual Basic). As such, F\# is tighly integrated with all the tools and libraries that .NET provides. In this sense, and __only for pedagogical purposes__, I will view .NET as the set of libraries that one can use to enhance your code. In other words, I will stay away from using them, and focusing in the core features of F\# as a functional language. From Web programming to Machine Learning, from databases to windows, .NET has everything you need to make your programming a better experience, once you know the core features F\# provides. 
 
 > If you are a C# programmer, you will probably get a better mileage going into some of the excellent resources of F\# for C# coders, such as [Get programming with F\#](https://www.manning.com/books/get-programming-with-f-sharp#:~:text=about%20the%20book-,Get%20Programming%20with%20F%23%3A%20A%20guide%20for%20.,of%20functional%20programming%20in%20F%23.) 
+See the Resources section for more information.
 
 
 ## Tools
@@ -38,6 +39,60 @@ Moreover, if you want to code F\# with `vim`, [Ionide gets you covered](https://
 
 
 
+## So what is a function anyway?
+
+Since we are about to learn functional programming, we need to agree in what a _function_ is in this context. Let us start with a set of entities, for example, the cars parked in a given block of a street. One can identify each car by its license plate, and then build a table with two columns: the first one with the license plate, and the second one with the corresponding the color of each car:
+
+| Lic. Plate | Color         | 
+| :----------: |:-------------:|
+| ABC 124 | black |
+| DEF 350 | red   |
+| QRZ 441 | black |
+| JPG 255 | white | 
+
+That's a function that we can call `carColor`, that associates each car of the block with its color. The table is a representation of that function. A function from a set of entities A to a set of entities B is then a relation that associates elements between the sets A and B, with the property that each and every element of A has a one and only one corresponding element of B. 
+
+There are two things to note. First, a function is defined _from_ one set _to_ another set, in our example, from the set of license plates to the set of colors. To get the color of a particular car, you go to the table representation of the function, look up the plate in the column of license plates, and get the color from the second column. With this in mind, one can identify the _from_ set as the _input_ of the function, while the _to_ set is the _output_. 
+
+Second, all elements of the input must relate to some element in the output set. In our example, every car in the block has a color assigned in the table. This means that there cannot be empty cells in the second column of our table. 
+
+> ❓ Can you come up with more examples of functions in the real world? 
+
+In math, functions are ubiquitous. Let us assume that $x$ is an integer, and define the function 
+$$
+f(x) = x + 1 , 
+$$
+that is, the function that returns the value $x$ plus one. The input set (which is called the _domain_ of the function in math) is the set of all integer values, $\mathbb{Z}$, while the output set (the _codomain_ in math) is also $\mathbb{Z}$. Using the _arrow_ notation, the complete definition of the function would be
+$$
+f: \mathbb{Z} \rightarrow \mathbb{N} \cup \{0\} / x \mapsto x + 1 
+$$
+Or in english, $f$ is a function from $\mathbb{Z}$ to $\mathbb{Z}$ such that $f$ of $x$ is $x + 1$.
+
+> 🔔 A slight detour around the codomain. The codomain is the set of entities where the function can possibly map input values. For example, in the case of the color of the cars, the codomain is simply all the possible colors. In many cases that information is too general, and it is convenient to define the _range_ of the function, which is the set of actual values of outputs the function maps inputs into. The _range_ in the cars example is the set {black, red, white}.
+
+### Multiple inputs and outputs
+
+Let us take the example of a vending machine. In a vending machine, products are arranged in shelves, where each shelf is named by a letter. In each shelf, the products are aligned and identified by a number. Then, in A1 you have a bag of chips, in A2 a chocolate, in B1 a soda, and so on. The machine also has a keyboard with letters and numbers for you to choose the product. To buy something, you need to give the machine some money (coins, bills, credit card, etc), select the product by clicking the letter and the number on the keyboard. The machine returns the product and some cashback, if any. 
+The inputs of our `vendingMachine` function are the money, the letter and the number you selected, and the outputs are the product and 
+the cashback (if any). 
+
+An example from math could be a translation function, where given a point with coordinates $x$ and $y$ in the plane, it returns a point with coordinates $x+1$ and $y+1$.  
+
+> 
+
+### Composition 
+ 
+
+
+The example of the friends, names, and initials.
+
+
+
+Binding functions
+
+Functions with many arguments
+
+
 
 
 
@@ -50,8 +105,6 @@ Any code you write will do _something_ with that data.
 So the first step in a new language is to learn how to define a way to hold your data, and how to transform it along the prgram. The former concept usually translates into _variables_ and while the latter one into _routines_, (or any other name, such as procedures, or functions, depending your programming scope). In this way, one uses routines to change the variables, or create other ones, from an order to buy something in a website, to the color of a pixel in your game of preference. 
 
 But let us go back and start with _expressions_. An expression is an ordered set of symbols that may represent different entities in the code. Pretty much like a sentence in a human language, an expression has to have a valid syntax (nobody will understand me if I use the. period wrong.) and also has to be meaningful (I a example for if me nobody of sentence sort the understand will words). The compiler, however, is much more strict with the rules and does not allow such poems. Why? Because the compiler needs to grab the expression, process it and obtain a _value_. So the value is the result of the evaluation of an expression. 
-
-In F\# everything is an expression.
 
 And since every expression results in a value, one needs to manage all these values that will be appearing as the code runs, identify and use them as one sees fit. To that end, F\# uses several _keywords_, and one of them is the `let`. 
 
@@ -71,15 +124,16 @@ let s = "this is a string"
 let l = [1 ; 2 ; 3] // A list of integers 
 ```
 
-and so on. Of course one can associate a previous binding with a new one:
+and so on. Of course one can associate a previous binding with a new one through an expression:
 
 ```F#
 let b = a + 4 
-printfn "%A" b
 ```
 
     8
 
+
+In the line above, we add four to `a` and bind the result of this expression to the `b` identifier. 
 
 ### Inmutability
 
@@ -102,7 +156,7 @@ let q = 3
 let qq = q + 1
 ```
 
-> :warning: 
+> ❗️ There are some cases where one can use the same identifier, see this 
 
 The implications of this are deep and it is very important to let the concept mature and sink in, because it percolates all the code in F\# (and any other functional language). In some way, since everything is an expression, coding in F\# is mananging the expressions that solve our problem. You name an expression (that is, you bind it to an identifier), use it in another expression, bind its value to a new identifier and so on an so on.
 
@@ -123,6 +177,27 @@ The perspective of a code as a long list of `let` bindings is kind of daunting. 
 
 
 
+
+
+
+```F#
+let demo () = 
+    let x = 7  
+    let x = x + 3
+    printfn "The x is %d" x
+```
+
+```F#
+demo()
+```
+
+    The x is 10
+
+
+
+
+
+<null>
 
 
 
@@ -219,7 +294,13 @@ let next x =
     x + 1 
 ```
 
-### Discriminated unions 
+### Types
+
+#### Product type: Records
+
+#### Sum type: Discriminated unions
+
+
 
 ### To be or not to be, that is the option 
 
