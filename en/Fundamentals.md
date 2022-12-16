@@ -37,8 +37,6 @@ You can also use F\# with Visual Studio for Windows or MacOS, if you are familia
 
 Moreover, if you want to code F\# with `vim`, [Ionide gets you covered](https://ionide.io/Editors/Vim/overview.html).
 
-
-
 ## So what is a function anyway?
 
 Since we are about to learn functional programming, we need to agree in what a _function_ is in this context. Let us start with a set of entities, for example, the cars parked in a given block of a street. One can identify each car by its license plate, and then build a table with two columns: the first one with the license plate, and the second one with the corresponding the color of each car:
@@ -127,18 +125,126 @@ If we look carefully to the last expression, it looks like composing the functio
 
 > ❗️ The fact that we use the same function to compose with itself is not relevant to this discussion, one can compose as many different functions as one wants, provided that inputs and outputs are compatible in each composition step.
 
-> 🔔 However, composing that particular function with itself is interesting. Imaging having only the zero and this function. You can create all the natural numbers {1, 2, ...} just by composing this function with itself again and again. For example, $4 = f(f(f(f(0))))$, and so on. Therefore, given the number 0, $f(x) = x + 1$ and function composition, one can get all the natural numbers. Looks like there is something going on here. More on this, hopefully, in some episode later...
-
-
-
-
-
+> 🔔 However, composing that particular function with itself is interesting. Imaging having only the zero and this function. You can create all the natural numbers {1, 2, ...} just by composing this function with itself again and again. For example, $4 = f(f(f(f(0))))$, and so on. Therefore, given the number 0, $f(x) = x + 1$ and function composition, one can get all the natural numbers. Looks like there is something going on here. More on this, hopefully, in a future episode.
 
 
 ## Functions in F\# 
 
-Functions in F\# play a key role, of course, because it is mainly a functional programming language. 
+The F\# language implements functions in such a way that they satisfy the properties mentioned above. To define a function, the language also uses the keyword `let`:
 
+
+```F#
+let next x =
+    x + 1 
+
+```
+
+We defined the function named `next` that receives an argument `x`. Notice that there are no other symbols or parentheses in the function definition. The body of the function should be indented, and there is no `return` keyword at the end. The function simply returns the last expression found in its body. Clean, isn't it? 
+Using the function is easy as well:
+
+```F#
+let one = next 0 
+let two = next (next 0)
+
+printfn "one: %A" one 
+printfn "two: %A" two 
+```
+
+    one: 1
+    two: 2
+
+
+Notice that there is no need to use parentheses around the argument when using a function. However, you need to use them when passing a more complex expression as the argument to the function, such as in the case of `two`. 
+
+There is another way to write the computation of `two`, by using the _pipe operator_ `|>`:
+
+```F#
+let anotherTwo =
+    0 
+    |> next
+    |> next 
+    
+printfn "anotherTwo: %A" anotherTwo
+```
+
+    anotherTwo: 2
+
+
+This operator takes care of the plumbing when calling functions one after another. In the example above, the first `|>` receives `0` as the input, passes it to the next function, the second `|>` receives the output of the first `next` function and feeds it as input to the second `next`. 
+
+Another example. Let us assume that we have the functions `getInitial` and `getFirstName` defined as:
+
+```fsharp
+let getInitial name = 
+    .... //Implementation not important right now
+```
+
+and 
+
+```fsharp
+let getFirstName fullName = 
+    .... //Implementation not important right now
+```
+
+and we defined the value
+
+```fsharp
+let paul = "Paul McCartney"
+```
+
+Then, 
+
+```fsharp
+paul
+|> getFirstName
+|> getInitial 
+```
+Here the string value `paul` is fed into the `getFirstName` function as the input by the first pipe `|>`, and returns 'Paul' as output. Then, the string 'Paul' is passed as the input of the function `getInitial` that gives us the 'P'. 
+
+Composition is so important in functional languages, that it has its own symbol in F\#, `>>` :
+
+```F#
+let add2 = next >> next 
+let two' = add2 0 
+printfn "%A" two'
+```
+
+    2
+
+
+Yes, you can use the `'` symbol in a function name! Note also that we defined a _function_ `add2` by using the composition operator (no argument needed). This is equivalent to:
+
+```F#
+let add2' x = 
+    x
+    |> next
+    |> next 
+```
+
+Remember that there is no return at the end of the function, just the last expression of the function is the return value. 
+
+Back to the names example, to clarify the order in which functions are composed. 
+
+```fsharp
+let getInitialFromFirstName fullName =
+    fullName
+        |> getFirstName 
+        |> getInitial 
+```
+and 
+
+```fsharp
+let getInitialFromFirstName' =
+        getFirstName >> getInitial 
+```
+
+are equivalent. 
+
+
+
+
+
+> ❓ Think about routines, procedures or functions that maybe you have written in your language of preference. Do they behave as F\# functions? 
 
 
 Binding functions
