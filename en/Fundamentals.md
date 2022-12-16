@@ -19,6 +19,8 @@ Even though you do not finally adopt the functional paradigm, adding a new langu
 
 F\# is one of the languages provided by the .NET framework (together with C# and Visual Basic). As such, F\# is tighly integrated with all the tools and libraries that .NET provides. In this sense, and __only for pedagogical purposes__, I will view .NET as the set of libraries that one can use to enhance your code. In other words, I will stay away from using them, and focusing in the core features of F\# as a functional language. From Web programming to Machine Learning, from databases to windows, .NET has everything you need to make your programming a better experience, once you know the core features F\# provides. 
 
+Also, my aim is to keep it as simple as possible, because I would like the reader to have the fundamental set of tools from the language to play with. To that end, some concepts that can be considered very basic, are left aside on purpose, and will be revealed in the future. 
+
 > If you are a C# programmer, you will probably get a better mileage going into some of the excellent resources of F\# for C# coders, such as [Get programming with F\#](https://www.manning.com/books/get-programming-with-f-sharp#:~:text=about%20the%20book-,Get%20Programming%20with%20F%23%3A%20A%20guide%20for%20.,of%20functional%20programming%20in%20F%23.) 
 See the Resources section for more information.
 
@@ -36,6 +38,79 @@ Besides, all this series is written as [Jupyter notebooks](https://jupyter.org/)
 You can also use F\# with Visual Studio for Windows or MacOS, if you are familiar with that tool. 
 
 Moreover, if you want to code F\# with `vim`, [Ionide gets you covered](https://ionide.io/Editors/Vim/overview.html).
+
+
+
+
+### `let` the fun begin 
+
+Any code you write will need data. 
+
+Any code you write will do _something_ with that data. 
+
+So the first step in a new language is to learn how to define a way to hold your data, and how to transform it along the prgram. The former concept usually translates into _variables_ and while the latter one into _routines_, (or any other name, such as procedures, or functions, depending your programming scope). In this way, one uses routines to change the variables, or create other ones, from an order to buy something in a website, to the color of a pixel in your game of preference. 
+
+But let us go back and start with _expressions_. An expression is an ordered set of symbols that may represent different entities in the code. Pretty much like a sentence in a human language, an expression has to have a valid syntax (nobody will understand me if I use the. period wrong.) and also has to be meaningful (I a example for if me nobody of sentence sort the understand will words). The compiler, however, is much more strict with the rules and does not allow such poems. Why? Because the compiler needs to grab the expression, process it and obtain a _value_. So the value is the result of the evaluation of an expression. 
+
+And since every expression results in a value, one needs to manage all these values that will be appearing as the code runs, identify and use them as one sees fit. To that end, F\# uses several _keywords_, and one of them is the `let`. 
+
+In F\# one says that `let` _binds_ an expression to an identifier. For example
+
+
+```F#
+// This is my first line in F#, which is a comment ¯\_(シ)_/¯
+let j = 1 // an integer 
+```
+
+binds the literal expression `1` to the name `a`. On the right hand side of the `=` symbol (that acts here as a binding operator), one can have any valid expression:
+
+```F#
+let a = 1.0 + 3.0 // floats 
+let s = "this is a string" 
+let l = [1 ; 2 ; 3] // A list of integers 
+let m = ("Messi",10) // A tuple of a string and a number 
+let t = true // A bool 
+```
+
+and so on. Of course one can associate a previous binding with a new one through an expression:
+
+```F#
+let b = a + 4 
+```
+
+
+    input.fsx (1,13)-(1,14) typecheck error The type 'int' does not match the type 'float'
+
+
+    input.fsx (1,11)-(1,12) typecheck error The type 'int' does not match the type 'float'
+
+
+In the line above, we add four to `a` and bind the result of this expression to the `b` identifier. 
+
+### Inmutability
+
+However, you cannot bind an expression to an identifier that has already been used:
+
+```F#
+let q = 3
+let q = q + 1
+```
+
+
+    input.fsx (2,5)-(2,6) typecheck error Duplicate definition of value 'q'
+
+
+which answers why one does not use _variables_ in F\#: once the value of an expression is obtained, it cannot be changed. In other words, all the values are _immutable_: once there, they cannot be changed. There are no variables in the language, because there is nothing to _vary_. You can create as many values as you want, but you cannot change them: 
+
+
+```F#
+let q = 3
+let qq = q + 1
+```
+
+The implications of this are deep and it is very important to let the concept mature and sink in, because it percolates all the code in F\# (and any other functional language). In some way, since everything is an expression, coding in F\# is mananging the expressions that solve our problem. You name an expression (that is, you bind it to an identifier), use it in another expression, bind its value to a new identifier and so on an so on.
+
+The perspective of a code as a long list of `let` bindings is kind of daunting. That is where functions come in.
 
 ## So what is a function anyway?
 
@@ -240,228 +315,21 @@ let getInitialFromFirstName' =
 
 are equivalent. 
 
-
-
-
-
 > ❓ Think about routines, procedures or functions that maybe you have written in your language of preference. Do they behave as F\# functions? 
 
+> 🏋🏽 We have a function `mult2` that given a number `x` doubles that number. Without coding, can you determine what the next composite functions return when applied to 3? :
 
-Binding functions
-
-Functions with many arguments
-
-
-
-
-
-### `let` the fun begin 
-
-Any code you write will need data. 
-
-Any code you write will do _something_ with that data. 
-
-So the first step in a new language is to learn how to define a way to hold your data, and how to transform it along the prgram. The former concept usually translates into _variables_ and while the latter one into _routines_, (or any other name, such as procedures, or functions, depending your programming scope). In this way, one uses routines to change the variables, or create other ones, from an order to buy something in a website, to the color of a pixel in your game of preference. 
-
-But let us go back and start with _expressions_. An expression is an ordered set of symbols that may represent different entities in the code. Pretty much like a sentence in a human language, an expression has to have a valid syntax (nobody will understand me if I use the. period wrong.) and also has to be meaningful (I a example for if me nobody of sentence sort the understand will words). The compiler, however, is much more strict with the rules and does not allow such poems. Why? Because the compiler needs to grab the expression, process it and obtain a _value_. So the value is the result of the evaluation of an expression. 
-
-And since every expression results in a value, one needs to manage all these values that will be appearing as the code runs, identify and use them as one sees fit. To that end, F\# uses several _keywords_, and one of them is the `let`. 
-
-In F\# one says that `let` _binds_ an expression to an identifier. For example
-
-
-```F#
-// My first line in F# 
-let a = 1 
+```fsharp
+let f = mult2 >> next 
+let g = next >> mult2 
 ```
 
-binds the literal expression `1` to the name `a`. On the right hand side of the `=` symbol (that acts here as a binding operator), one can have any valid expression:
-
-```F#
-let a = 1 + 3
-let s = "this is a string" 
-let l = [1 ; 2 ; 3] // A list of integers 
-```
-
-and so on. Of course one can associate a previous binding with a new one through an expression:
-
-```F#
-let b = a + 4 
-```
-
-    8
-
-
-In the line above, we add four to `a` and bind the result of this expression to the `b` identifier. 
-
-### Inmutability
-
-However, you cannot bind an expression to an identifier that has already been used:
-
-```F#
-let q = 3
-let q = q + 1
-```
-
-
-    input.fsx (2,5)-(2,6) typecheck error Duplicate definition of value 'q'
-
-
-which answers why one does not use _variables_ in F\#: once the value of an expression is obtained, it cannot be changed. In other words, all the values are _immutable_: once there, they cannot be changed. There are no variables in the language, because there is nothing to _vary_. You can create as many values as you want, but you cannot change them: 
-
-
-```F#
-let q = 3
-let qq = q + 1
-```
-
-> ❗️ There are some cases where one can use the same identifier, see this 
-
-The implications of this are deep and it is very important to let the concept mature and sink in, because it percolates all the code in F\# (and any other functional language). In some way, since everything is an expression, coding in F\# is mananging the expressions that solve our problem. You name an expression (that is, you bind it to an identifier), use it in another expression, bind its value to a new identifier and so on an so on.
-
-The perspective of a code as a long list of `let` bindings is kind of daunting. That is where functions come in.
-
-### Resources
-
-
-
-
-
-
-
-
-
->> [A nice thread on reusability of binding names](https://github.com/dotnet/fsharp/issues/9900).
-
-
-
-
-
-
-
-```F#
-let demo () = 
-    let x = 7  
-    let x = x + 3
-    printfn "The x is %d" x
-```
-
-```F#
-demo()
-```
-
-    The x is 10
-
-
-
-
-
-<null>
-
-
-
-
-
-```F#
-let x4 = for i in [1..10]
-          do printf "%i" i
-```
-
-    12345678910
-
-```F#
-let c = "nobody will understand me I a example for if of sentence sort the words"
-let q = c.Split(' ')
-Array.sort q 
-|> String.concat " "
-```
-
-
-    I a example for if me nobody of sentence sort the understand will words
-
-
-```F#
-let p = 5
-```
-
-```F#
-printfn "%A" p 
-```
-
-    5
-
-
-```F#
-let p = 6
-printfn "%A" p 
-```
-
-    6
-
-
-### Functions everywhere
-
-Looks like one can reuse the binding name in different cells, provided one runs in the current order. Same value on one cell are not allowed, though.
-
-```F#
-let foo (a:string) b =
-    a + b
-   
-```
-
-```F#
-let d = foo "John " "Doe"
-let d = foo 2 3 
-```
-
-
-    input.fsx (2,13)-(2,14) typecheck error This expression was expected to have type
-
-
-        'string'    
-
-
-    but here has type
-
-
-        'int'    
-
-
-    input.fsx (2,15)-(2,16) typecheck error This expression was expected to have type
-
-
-        'string'    
-
-
-    but here has type
-
-
-        'int'    
-
-
-```F#
-let foo (a:int) b =
-    a + b
-```
-
-```F#
-let d = foo 2 3 
-```
-
-```F#
-let next x = 
-    x + 1 
-```
-
-### Types
-
-#### Product type: Records
-
-#### Sum type: Discriminated unions
-
-
-
-### To be or not to be, that is the option 
+Code the function `mult2` and see the result by yourself.
+
+- The use of the let to bind functions and values equally
+- functions and values begin with lowercase
+- functions and inmutability
+- 
 
 ### On Lists
 
@@ -555,27 +423,11 @@ console.log("or maybe is: "+c)
 
 
 
-    c is:5
-
-
-
     or maybe is: John Doe
 
 
 
-    or maybe is: John Doe
-
-
-
-    or maybe is: 1
-
-
-
-    or maybe is: 1
-
-
-
-    or maybe is: 5
+    or maybe is: 2
 
 
 
