@@ -14,3 +14,26 @@ This repository contains the Jupyter Notebooks edition of the course. The course
 
 To install the .NET interactive with Jupyer Notebooks, follow the instructions [here](https://github.com/dotnet/interactive/blob/main/docs/NotebookswithJupyter.md). 
 
+## Fundamentals
+
+## Tools
+
+### `let` the fun begin 
+
+
+### Inmutability
+
+### So what is a function anyway?
+
+### Functions in F\# 
+
+### Types 
+
+#### Product type: Records
+
+#### Sum type: Discriminated unions
+
+### To be or not to be, that is the option 
+
+### Resources
+

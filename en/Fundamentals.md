@@ -149,7 +149,7 @@ Let us take the example of a vending machine. In a vending machine, products are
 The inputs of our `vendingMachine` function are the money, the letter and the number you selected, and the outputs are the product and 
 the cashback (if any). 
 
-An example from math could be a translation function, where given a point with coordinates $$x$$ and $$y$$ in the plane, it returns a point with coordinates $$x+1$$ and $$y+1$$:
+An example from math could be a translation function, where given a point with coordinates \(x\) and $$y$$ in the plane, it returns a point with coordinates $$x+1$$ and $$y+1$$:
 
 $$
 g: \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R} \times \mathbb{R}  \; ; \;  (x,y) \mapsto (x + 1, y+1)
@@ -163,7 +163,7 @@ $$
 
 ### Partial application 
 When we feed a function of several input elements, we can obtain the proper output(s) items. But having many inputs opens a new possibility: what happens when one decides not to complete all the inputs? Let us find out. Let us assume that we entered a bill into the vending machine. It is clear that we will not get any product, because the machine still needs two more inputs: the letter of the shelf and the product number that we want. _After_ we complete these two inputs, we will get our treat (and cashback, if any). So, entering money only in the vending machine leads to a state where two inputs are needed and two outputs will be returned. But, this is _another function_!!!. Let us call it `vendingMachineAfterInsertBill` that receives the letter of the shelf and the product number that we want and returns the product (and cashback, if any). 
-Going back to the math example, let us feed the function with just the $$x = 3$$ value, 
+Going back to the math example, let us feed the function with just the $x = 3$ value, 
 
 $$
 g(3,y) = (4,y+1)
@@ -192,15 +192,20 @@ Now we want to build a function that gives us the initial of the first name, giv
 This plumbing where the output of one function is the input of another is called _composition_. Note that it is absolutely necessary that the output of the first called function (`getFirstName`) and the input of the second one (`getInitial`) are the same kind of entity, in our case, both are first names.
 You can [see this pictures for a graphical explanation](https://mathinsight.org/function_machine_composition).
 
-Let us now look at a math example. We defined before the function $$f(x)$$ that adds one to $$x$$, for example 
+Let us now look at a math example. We defined before the function $f(x)$ that adds one to $x$, for example 
+
 $$
 f(0) = 0 + 1 = 1
 $$
+
 What if we apply the $f$ function again? It means to compute
+
 $$
 f(f(0)) = f(0) + 1 = 0 + 1 + 1 = 2 
 $$
+
 In general,
+
 $$
 f(f(x)) = f(x) + 1 = x + 1 + 1 = x + 2 
 $$
