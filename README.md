@@ -20,7 +20,6 @@ To install the .NET interactive with Jupyer Notebooks, follow the instructions [
 
 ### `let` the fun begin 
 
-
 ### Inmutability
 
 ### So what is a function anyway?
@@ -29,9 +28,9 @@ To install the .NET interactive with Jupyer Notebooks, follow the instructions [
 
 ### Types 
 
-#### Product type: Records
-
 #### Sum type: Discriminated unions
+
+#### Product type: Records
 
 ### To be or not to be, that is the option 
 
