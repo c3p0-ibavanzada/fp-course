@@ -66,6 +66,9 @@ To install the .NET interactive with Jupyer Notebooks, follow the instructions [
 
 ### Resources
 
+- [The Jupyter notebook edu book](https://jupyter4edu.github.io/jupyter-edu-book/).
+
+
 Coming soon:
 - What `if` say `for` goodbye?
 - To be or not to be, that is the option 
